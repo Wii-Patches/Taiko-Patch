@@ -106,7 +106,7 @@ jobs:
             $BINS --distpath pyinst_dist taiko_patcher/gui.py
           cp wit-gpl-2.0.txt "pyinst_dist/Taiko-Patcher.app/Contents/Resources/wit-gpl-2.0.txt"
           cd pyinst_dist
-          zip -qr "../Taiko-Patcher-${{ matrix.target }}.zip" Taiko-Patcher.app
+          zip -qr "../Taiko-ISO-Patcher-${{ matrix.target }}.zip" Taiko-Patcher.app
 
       - name: Build app (Linux)
         if: matrix.target == 'linux-x86_64'
@@ -120,7 +120,7 @@ jobs:
             $BINS --distpath pyinst_dist taiko_patcher/gui.py
           cp wit-gpl-2.0.txt pyinst_dist/Taiko-Patcher/
           cd pyinst_dist
-          tar -czf "../Taiko-Patcher-${{ matrix.target }}.tar.gz" Taiko-Patcher
+          tar -czf "../Taiko-ISO-Patcher-${{ matrix.target }}.tar.gz" Taiko-Patcher
 
       - name: Build app (Windows)
         if: matrix.target == 'windows-x86_64'
@@ -136,16 +136,16 @@ jobs:
             $BINS --distpath pyinst_dist taiko_patcher/gui.py
           cp wit-gpl-2.0.txt pyinst_dist/Taiko-Patcher/
           cd pyinst_dist
-          7z a "../Taiko-Patcher-${{ matrix.target }}.zip" Taiko-Patcher \
-            || powershell -Command "Compress-Archive -Path Taiko-Patcher -DestinationPath ../Taiko-Patcher-${{ matrix.target }}.zip"
+          7z a "../Taiko-ISO-Patcher-${{ matrix.target }}.zip" Taiko-Patcher \
+            || powershell -Command "Compress-Archive -Path Taiko-Patcher -DestinationPath ../Taiko-ISO-Patcher-${{ matrix.target }}.zip"
 
       - uses: actions/upload-artifact@v4
         with:
-          name: Taiko-Patcher-${{ matrix.target }}
-          path: Taiko-Patcher-${{ matrix.target }}.*
+          name: Taiko-ISO-Patcher-${{ matrix.target }}
+          path: Taiko-ISO-Patcher-${{ matrix.target }}.*
 
       - name: Attach to release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: Taiko-Patcher-${{ matrix.target }}.*
+          files: Taiko-ISO-Patcher-${{ matrix.target }}.*
