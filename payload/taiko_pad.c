@@ -98,7 +98,9 @@ void tp_poll_ch(u32 ch)
         u32 l = si_rd(ch * 12 + 8);
         s->dbg_h[ch] = h;
         s->dbg_l[ch] = l;
-        if (!(h & GC_ERRSTAT) && (h & GC_ORIGIN)) {
+        /* Only ERRSTAT marks an empty port. DK Bongos answer like a pad but leave
+         * PAD_USE_ORIGIN (bit 23) clear, so that bit must not be required. */
+        if (!(h & GC_ERRSTAT)) {
             present = 1;
             kind = 1;
             /* DK Bongos report no sticks at all (main and C stick are both ~0) */
