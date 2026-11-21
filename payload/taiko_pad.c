@@ -44,7 +44,7 @@ static inline u32 si_rd(u32 off) { return *(volatile u32 *)(SI_BASE + off); }
 
 /* flags */
 #define TPF_STICK   0x1u /* left stick acts as D-pad            */
-#define TPF_CLAP    0x2u /* DK Bongo clap = ka                  */
+#define TPF_CLAP    0x2u /* DK Bongo clap = extra ka (opt-in)    */
 #define TPF_CSTICK  0x4u /* C-stick: left=ka-L right=ka-R, up/down = don L/R */
 
 struct tp_cfg {
@@ -77,7 +77,7 @@ struct tp_state {
 };
 
 struct tp_cfg tp_cfg __attribute__((used)) = {
-    TP_MAGIC, 0x40, 0x20, 0x10, 0x08, 0x10, 0x200, TPF_STICK | TPF_CLAP | TPF_CSTICK, 48, 0x50, 0, 0,
+    TP_MAGIC, 0x40, 0x20, 0x10, 0x08, 0x10, 0x200, TPF_STICK | TPF_CSTICK, 48, 0x50, 0, 0,
 };
 struct tp_state tp_state __attribute__((used));
 
@@ -109,7 +109,7 @@ void tp_poll_ch(u32 ch)
                 if (h & (GC_B | GC_Y))
                     tk |= c->tk_cl;
                 if (h & (GC_A | GC_X))
-                    tk |= c->tk_cr;
+                    tk |= c->tk_rr; /* right bongo = blue (ka) */
                 if (c->flags & TPF_CLAP) {
                     u32 amp = l & 0xFF, a2 = (l >> 8) & 0xFF;
                     if (a2 > amp)

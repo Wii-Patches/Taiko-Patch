@@ -25,7 +25,7 @@ def main(argv=None):
     p.add_argument("--no-gc", action="store_true", help="do not add GameCube pad / DK Bongo support")
     p.add_argument("--no-classic", action="store_true", help="do not touch the Classic Controller layout")
     p.add_argument("--no-stick", action="store_true", help="GC left stick does not act as D-pad")
-    p.add_argument("--no-clap", action="store_true", help="DK Bongo clap does not act as ka")
+    p.add_argument("--clap", action="store_true", help="DK Bongo clap also acts as ka")
     args = ap.parse_args(argv)
 
     if args.cmd == "list":
@@ -44,11 +44,11 @@ def main(argv=None):
         return 0 if g else 1
 
     flags = None
-    if args.no_stick or args.no_clap:
+    if args.no_stick or args.clap:
         flags = 4  # C-stick stays on
         if not args.no_stick:
             flags |= 1
-        if not args.no_clap:
+        if args.clap:
             flags |= 2
     try:
         out = patch_any(args.input, args.output, game_key=args.game, gc=not args.no_gc,

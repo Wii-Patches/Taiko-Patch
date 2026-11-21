@@ -26,10 +26,10 @@ One patcher for the five Taiko no Tatsujin Wii games (Japan).
 
 | Drum face | GameCube pad | DK Bongos |
 |---|---|---|
-| left don (center L) | B, Y, D-pad down, left stick down | left bongo |
-| right don (center R) | A, X, D-pad up, left stick up | right bongo |
-| left ka (rim L) | L, D-pad left, left stick left, C-stick left | clap (alternates sides) |
-| right ka (rim R) | R, D-pad right, left stick right, C-stick right | clap (alternates sides) |
+| left don (center L) | B, Y, D-pad down, left stick down | left bongo (red) |
+| right don (center R) | A, X, D-pad up, left stick up | - |
+| left ka (rim L) | L, D-pad left, left stick left, C-stick left | - |
+| right ka (rim R) | R, D-pad right, left stick right, C-stick right | right bongo (blue) |
 | pause / start (+) | Start | Start |
 | cancel / back | Z | - |
 
@@ -60,7 +60,7 @@ No patching needed: `codes/<ID6>.ini` (Dolphin) / `.txt` (any Gecko loader) and 
 patch at runtime. They are generated from the same plan as the DOL patch (`python3 tools/gen_codes.py`, checked in CI).
 Don't combine them with a DOL that is already patched.
 
-Options: `--no-gc`, `--no-classic`, `--no-stick`, `--no-clap`, `--game taikoN`.
+Options: `--no-gc`, `--no-classic`, `--no-stick`, `--clap` (bongo clap also = ka), `--game taikoN`.
 Only Python 3.9+ (stdlib) is needed to run it; [wit](https://wit.wiimm.de/) only for disc images.
 A modified disc needs a way to run unsigned/altered discs (Dolphin, a softmodded Wii with a USB loader).
 

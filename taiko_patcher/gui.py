@@ -107,8 +107,8 @@ class App(BASE):
         tk.Checkbutton(opts, text="GameCube controller and DK Bongos (ports 1-4)", variable=self.gc).pack(anchor="w")
         self.stick = tk.BooleanVar(value=True)
         tk.Checkbutton(opts, text="    left stick works as D-pad", variable=self.stick).pack(anchor="w")
-        self.clap = tk.BooleanVar(value=True)
-        tk.Checkbutton(opts, text="    DK Bongo clap = ka", variable=self.clap).pack(anchor="w")
+        self.clap = tk.BooleanVar(value=False)
+        tk.Checkbutton(opts, text="    DK Bongo clap also = ka", variable=self.clap).pack(anchor="w")
         self.classic = tk.BooleanVar(value=True)
         tk.Checkbutton(opts, text="Classic Controller: ZL / ZR also hit ka (Taiko Wii 1)", variable=self.classic).pack(anchor="w")
 

@@ -72,7 +72,7 @@ def make_plan(game: Game, gc=True, classic=True, flags=None, probe_expect=True):
 
     writes, tables = [], []
     if gc:
-        cfg = dict(magic=0x544B5054, flags=FLAG_STICK | FLAG_CLAP | FLAG_CSTICK, stick_thresh=48,
+        cfg = dict(magic=0x544B5054, flags=FLAG_STICK | FLAG_CSTICK, stick_thresh=48,
                    clap_thresh=0x50, obj_drum=game.obj_drum, obj_core=game.obj_core)
         cfg.update(game.cfg)
         if flags is not None:
