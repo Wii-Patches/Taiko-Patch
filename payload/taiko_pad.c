@@ -74,6 +74,8 @@ struct tp_state {
     u32 dbg_sipoll; /* debug mirrors (read through a debugger)    */
     u32 dbg_h[4];
     u32 dbg_l[4];
+    u8 bprev[4]; /* bongo hit edge state: bit0 left (red), bit1 right (blue) */
+    u8 bside[4]; /* alternation side: bit0 red, bit1 blue                  */
 };
 
 struct tp_cfg tp_cfg __attribute__((used)) = {
@@ -106,10 +108,18 @@ void tp_poll_ch(u32 ch)
             /* DK Bongos report no sticks at all (main and C stick are both ~0) */
             if (((h & 0xFCFC) == 0) && (((l >> 16) & 0xFCFC) == 0)) {
                 kind = 2;
-                if (h & (GC_B | GC_Y))
-                    tk |= c->tk_cl;
-                if (h & (GC_A | GC_X))
-                    tk |= c->tk_rr; /* right bongo = blue (ka) */
+                /* left bongo = red (don), right bongo = blue (ka); each new hit alternates L/R */
+                u32 now = ((h & (GC_B | GC_Y)) ? 1u : 0u) | ((h & (GC_A | GC_X)) ? 2u : 0u);
+                u32 edge = now & ~(u32)s->bprev[ch];
+                s->bprev[ch] = (u8)now;
+                if (edge & 1)
+                    s->bside[ch] ^= 1;
+                if (edge & 2)
+                    s->bside[ch] ^= 2;
+                if (now & 1)
+                    tk |= (s->bside[ch] & 1) ? c->tk_cr : c->tk_cl;
+                if (now & 2)
+                    tk |= (s->bside[ch] & 2) ? c->tk_rr : c->tk_rl;
                 if (c->flags & TPF_CLAP) {
                     u32 amp = l & 0xFF, a2 = (l >> 8) & 0xFF;
                     if (a2 > amp)

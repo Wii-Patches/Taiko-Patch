@@ -26,10 +26,10 @@ One patcher for the five Taiko no Tatsujin Wii games (Japan).
 
 | Drum face | GameCube pad | DK Bongos |
 |---|---|---|
-| left don (center L) | B, Y, D-pad down, left stick down | left bongo (red) |
+| left don (center L) | B, Y, D-pad down, left stick down | left bongo (red, alternates L/R) |
 | right don (center R) | A, X, D-pad up, left stick up | - |
 | left ka (rim L) | L, D-pad left, left stick left, C-stick left | - |
-| right ka (rim R) | R, D-pad right, left stick right, C-stick right | right bongo (blue) |
+| right ka (rim R) | R, D-pad right, left stick right, C-stick right | right bongo (blue, alternates L/R) |
 | pause / start (+) | Start | Start |
 | cancel / back | Z | - |
 
