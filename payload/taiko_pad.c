@@ -108,18 +108,19 @@ void tp_poll_ch(u32 ch)
             /* DK Bongos report no sticks at all (main and C stick are both ~0) */
             if (((h & 0xFCFC) == 0) && (((l >> 16) & 0xFCFC) == 0)) {
                 kind = 2;
-                /* left bongo = red (don), right bongo = blue (ka); each new hit alternates L/R */
-                u32 now = ((h & (GC_B | GC_Y)) ? 1u : 0u) | ((h & (GC_A | GC_X)) ? 2u : 0u);
+                /* left bongo = red (don), each new hit alternates L/R.
+                 * right bongo = blue (ka): upper half (X) = left ka, lower half (A) = right ka. */
+                u32 now = (h & (GC_B | GC_Y)) ? 1u : 0u;
                 u32 edge = now & ~(u32)s->bprev[ch];
                 s->bprev[ch] = (u8)now;
-                if (edge & 1)
+                if (edge)
                     s->bside[ch] ^= 1;
-                if (edge & 2)
-                    s->bside[ch] ^= 2;
-                if (now & 1)
-                    tk |= (s->bside[ch] & 1) ? c->tk_cr : c->tk_cl;
-                if (now & 2)
-                    tk |= (s->bside[ch] & 2) ? c->tk_rr : c->tk_rl;
+                if (now)
+                    tk |= s->bside[ch] ? c->tk_cr : c->tk_cl;
+                if (h & GC_X)
+                    tk |= c->tk_rl;
+                if (h & GC_A)
+                    tk |= c->tk_rr;
                 if (c->flags & TPF_CLAP) {
                     u32 amp = l & 0xFF, a2 = (l >> 8) & 0xFF;
                     if (a2 > amp)
